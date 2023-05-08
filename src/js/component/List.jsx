@@ -4,7 +4,7 @@ const List = (props) => {
     return (
         <>
 
-            <div className="container card" style={{ width: "25rem" }}>
+            <div className="container border border-ligth" style={{ width: "25rem" }}>
                 <ul className="list-group list-group-flush ">
                     <li className="list-group-item">
                         <input
