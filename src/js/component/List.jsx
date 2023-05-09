@@ -16,7 +16,9 @@ const List = (props) => {
                             //activo la funcion para agregar a toDos lo que se escribio en input
                             onKeyUp={(e) => {
                                 if (e.key === "Enter") {
-                                    props.setToDos(props.toDos.concat(props.inputValue));
+                                    // props.setToDos(props.toDos.concat(props.inputValue));
+                                    props.setToDos([...props.toDos,props.inputValue])
+
                                     // borrado del input value
                                     props.setInputValue("");
                                 }
@@ -34,14 +36,17 @@ const List = (props) => {
                             {/* espacio entre el item y el boton de borrado */}{" "}
 
                             {/* para eliminar alguna tarea  de la lista*/}
+                            
                             <button className="btn btn-outline-light" onClick={(t) =>
                                 props.setToDos(
                                     props.toDos.filter((t, currentIndex) => index != currentIndex)
                                 )
                             }
                             >
-                                X
+                                <i className="fa-solid fa-x" style={{color:"red"}}></i>
                             </button>
+
+                        
                         </li>
                     ))}
 

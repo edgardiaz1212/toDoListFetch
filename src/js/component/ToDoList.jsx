@@ -18,11 +18,10 @@ const ToDoList = () => {
         setToDos={setToDos}
         toDos={toDos}
       />
-      <div className="deco container border border-ligth p-1" style={{ width: "24rem" }}>  </div>
-      <div className="deco container border border-ligth p-1" style={{ width: "23rem" }}>  </div>
+      <div className="container border border-ligth p-1" style={{ width: "24rem" }}>  </div>
+      <div className="container border border-ligth p-1" style={{ width: "23rem" }}>  </div>
 
       <Counter toDos={toDos} />
-
 
     </>
   );
