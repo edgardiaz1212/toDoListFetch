@@ -1,7 +1,75 @@
+// import  {useEffect} from "react";
 import React from "react";
+import { useEffect } from "react";
 
 const List = (props) => {
-    return (
+  const createUser = async ()=> {
+    try{
+        let response = await fetch ("http://assets.breatheco.de/apis/fake/todos/user/edgardiaz",
+        {method: "POST",
+          headers : {"Content-Type": "application/json"},
+          body:JSON.stringify([])
+      })
+        if (response.ok){getAllTask()}
+                        
+    }catch(err){
+        console.log(err)
+    }
+  }
+
+  const getAllTask = async ()=> {
+    try{
+        let response = await fetch ("http://assets.breatheco.de/apis/fake/todos/user/edgardiaz")
+        let data = await response.json()
+        if (response.status ==404){
+          createUser()
+          }
+          else { props.setToDos(data)}
+
+    }catch(err){
+        console.log(err)
+    }
+  }
+
+
+  useEffect(() => {
+    getAllTask()
+  },[])
+  
+  const addTask = async()=>{
+    try{
+      let response = await fetch ("http://assets.breatheco.de/apis/fake/todos/user/edgardiaz",
+        {method:"PUT",
+        headers :{"Content-Type":"application/json"},
+        body : JSON.stringify([...props.toDos, {label:props.inputValue, done: false}])
+      }
+      )
+      let data = await response.json()
+      props.setToDos([...props.todos, data])
+       
+       
+       
+    } catch(err){ 
+      console.log(err)} 
+  }
+
+  const deleteTask = async ()=>{
+    try{
+      let response = await fetch ("http://assets.breatheco.de/apis/fake/todos/user/edgardiaz",
+      {
+        method:"DELETE"
+      }
+    )
+      let data = await response.json(
+        props.setToDos(data)
+      )
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+
+  return (
         <>
 
             <div className="container border border-ligth" style={{ width: "25rem" }}>
@@ -17,30 +85,37 @@ const List = (props) => {
                             onKeyUp={(e) => {
                                 if (e.key === "Enter") {
                                     // props.setToDos(props.toDos.concat(props.inputValue));
-                                    props.setToDos([...props.toDos,props.inputValue])
-
-                                    // borrado del input value
-                                    props.setInputValue("");
+                                    
+                                   // ya no se guarda local, ahora tiene que anadirlo a la api 
+                                   addTask()
+                                   props.setToDos([...props.toDos, props.inputValue])
+                                   // para dejar el input en blanco
+                                   props.setInputValue("");
+                                   
                                 }
                             }}
-                        ></input>
+                        >
+                        </input>
                     </li>
 
                     {/* anadir lo escrito en input en la lista de toDos */}
                     {props.toDos.map((item, index) => (
                         <li
                             className="list-group-item d-flex justify-content-between"
-                            key="index"
+                            key={index}
+                            
                         >
-                            {item}
+                          {/* cambio a el nombre a .label, del key del objeto que esta en la api  */}
+                            {item.label}
                             {/* espacio entre el item y el boton de borrado */}{" "}
 
                             {/* para eliminar alguna tarea  de la lista*/}
                             
-                            <button className="btn btn-outline-light" onClick={(t) =>
-                                props.setToDos(
-                                    props.toDos.filter((t, currentIndex) => index != currentIndex)
-                                )
+                            <button className="btn btn-outline-light" onClick={() =>
+                                // props.setToDos(
+                                //     props.toDos.filter((t, currentIndex) => ({index.label} !)= currentIndex)
+                                // )
+                                deleteTask(index)
                             }
                             >
                                 <i className="fa-solid fa-x" style={{color:"red"}}></i>

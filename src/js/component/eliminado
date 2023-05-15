@@ -1,0 +1,24 @@
+{props.toDos.map((item, index) => (
+                        <li
+                            className="list-group-item d-flex justify-content-between"
+                            key={index}
+                        >
+                          {/* cambio a el nombre a .label, del key del objeto que esta en la api  */}
+                            {item.label}
+                            {/* espacio entre el item y el boton de borrado */}{" "}
+
+                            {/* para eliminar alguna tarea  de la lista*/}
+                            
+                            <button className="btn btn-outline-light" onClick={(t) =>
+                                // props.setToDos(
+                                //     props.toDos.filter((t, currentIndex) => ({index.label} !)= currentIndex)
+                                // )
+                                deleteTask()
+                            }
+                            >
+                                <i className="fa-solid fa-x" style={{color:"red"}}></i>
+                            </button>
+
+                        
+                        </li>
+                    ))}
