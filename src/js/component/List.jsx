@@ -1,11 +1,12 @@
 // import  {useEffect} from "react";
 import React from "react";
 import { useEffect } from "react";
+const URLBASE = "http://assets.breatheco.de/apis/fake/todos/user/edgardiaz"
 
 const List = (props) => {
   const createUser = async ()=> {
     try{
-        let response = await fetch ("http://assets.breatheco.de/apis/fake/todos/user/edgardiaz",
+        let response = await fetch (`${URLBASE}`,
         {method: "POST",
           headers : {"Content-Type": "application/json"},
           body:JSON.stringify([])
@@ -19,7 +20,7 @@ const List = (props) => {
 
   const getAllTask = async ()=> {
     try{
-        let response = await fetch ("http://assets.breatheco.de/apis/fake/todos/user/edgardiaz")
+        let response = await fetch (`${URLBASE}`)
         let data = await response.json()
         if (response.status ==404){
           createUser()
@@ -38,7 +39,7 @@ const List = (props) => {
   
   const addTask = async()=>{
     try{
-      let response = await fetch ("http://assets.breatheco.de/apis/fake/todos/user/edgardiaz",
+      let response = await fetch (`${URLBASE}`,
         {method:"PUT",
         headers :{"Content-Type":"application/json"},
         body : JSON.stringify([...props.toDos, {label:props.inputValue, done: false}])
@@ -53,9 +54,9 @@ const List = (props) => {
       console.log(err)} 
   }
 
-  const deleteTask = async ()=>{
+  const deleteTask = async (props)=>{
     try{
-      let response = await fetch ("http://assets.breatheco.de/apis/fake/todos/user/edgardiaz",
+      let response = await fetch (`${URLBASE}`,
       {
         method:"DELETE"
       }
@@ -100,6 +101,8 @@ const List = (props) => {
 
                     {/* anadir lo escrito en input en la lista de toDos */}
                     {props.toDos.map((item, index) => (
+                        
+                        
                         <li
                             className="list-group-item d-flex justify-content-between"
                             key={index}
@@ -111,11 +114,11 @@ const List = (props) => {
 
                             {/* para eliminar alguna tarea  de la lista*/}
                             
-                            <button className="btn btn-outline-light" onClick={() =>
+                            <button className="btn btn-outline-light" onClick={() =>(
                                 // props.setToDos(
                                 //     props.toDos.filter((t, currentIndex) => ({index.label} !)= currentIndex)
                                 // )
-                                deleteTask(index)
+                                deleteTask({index}))
                             }
                             >
                                 <i className="fa-solid fa-x" style={{color:"red"}}></i>
