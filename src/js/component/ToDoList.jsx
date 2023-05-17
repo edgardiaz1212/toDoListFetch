@@ -49,7 +49,6 @@ const ToDoList = () => {
           setInputValue("");
         } else {
           console.log("error addtask");
-          
         }
       }
     } catch (err) {
@@ -60,20 +59,8 @@ const ToDoList = () => {
   const deleteTask = async (id) => {
     try {
       let activeTask = toDos.filter((_, index) => index != id);
-      
-      if (activeTask.length === 0) {
-        let response = await fetch(`${URLBASE}`, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-        });
-        if (response.ok) {
-          setToDos([]);
-          createUser()
-        } else {
-          console.log("error Delete task");
-        }
-      } else {
-        let response = await fetch(`${URLBASE}`, {
+
+      let response = await fetch(`${URLBASE}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(activeTask),
@@ -81,11 +68,9 @@ const ToDoList = () => {
         if (response.ok) {
           getAllTask();
         } else {
-          console.log("error Delete task");
+          console.log("error PUT task");
+          setToDos([])
         }
-      }
-
-
     } catch (err) {
       console.log(err);
     }
