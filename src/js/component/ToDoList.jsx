@@ -49,10 +49,9 @@ const ToDoList = () => {
           setInputValue("");
         } else {
           console.log("error addtask");
+          
         }
       }
-       
-      
     } catch (err) {
       console.log(err);
     }
@@ -60,21 +59,33 @@ const ToDoList = () => {
 
   const deleteTask = async (id) => {
     try {
-      console.log(id)
-      let newTask = toDos.filter((_, index) => index != id);
-
-      let response = await fetch(`${URLBASE}`, 
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newTask),
-      }
-      );
-      if (response.ok) {
-        getAllTask();
+      let activeTask = toDos.filter((_, index) => index != id);
+      
+      if (activeTask.length === 0) {
+        let response = await fetch(`${URLBASE}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        });
+        if (response.ok) {
+          setToDos([]);
+          createUser()
+        } else {
+          console.log("error Delete task");
+        }
       } else {
-        console.log("error Delete task");
+        let response = await fetch(`${URLBASE}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(activeTask),
+        });
+        if (response.ok) {
+          getAllTask();
+        } else {
+          console.log("error Delete task");
+        }
       }
+
+
     } catch (err) {
       console.log(err);
     }
@@ -99,7 +110,7 @@ const ToDoList = () => {
               type="text"
               placeholder="What needs to be done?"
               value={inputValue}
-              onKeyUp = {addTask}
+              onKeyUp={addTask}
             />
           </li>
 
@@ -112,7 +123,6 @@ const ToDoList = () => {
               >
                 {item.label}
                 {/* espacio entre el item y el boton de borrado */}{" "}
-
                 {/* para eliminar alguna tarea  de la lista*/}
                 <button
                   className="btn btn-outline-light"
