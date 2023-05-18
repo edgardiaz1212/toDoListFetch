@@ -150,7 +150,10 @@ const ToDoList = () => {
 
       <Counter toDos={toDos} />
 
+      <div className="container " style={{ width: "25rem" }}>
       <button className="m-auto" onClick={deleteAll} >Delete Everything</button>
+        </div>
+      
     </>
   );
 };
