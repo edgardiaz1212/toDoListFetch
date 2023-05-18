@@ -75,6 +75,20 @@ const ToDoList = () => {
       console.log(err);
     }
   };
+  const deleteAll= async() => {
+    try {
+      let response = await fetch(`${URLBASE}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.ok) {
+        getAllTask();
+      } else {
+        console.log("error Delete all")}
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
     getAllTask();
@@ -135,6 +149,8 @@ const ToDoList = () => {
       </div>
 
       <Counter toDos={toDos} />
+
+      <button className="m-auto" onClick={deleteAll} >Delete Everything</button>
     </>
   );
 };
